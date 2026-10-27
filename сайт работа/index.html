@@ -1,0 +1,1126 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <title>Алексей | Делаю простые и недорогие сайты</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg-dark: #0b0e14;
+      --bg-card: #151a23;
+      --bg-light: #1e2632;
+      --text-primary: #f0f4fa;
+      --text-secondary: #a0b0c5;
+      --accent: #2f7cf6;
+      --accent-gradient: linear-gradient(135deg, #2f7cf6, #7b4dff);
+      --shadow-sm: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+      --shadow-lg: 0 25px 40px -10px rgba(0, 0, 0, 0.7);
+      --border-light: rgba(255, 255, 255, 0.06);
+      --radius: 24px;
+      --radius-sm: 16px;
+      --font: 'Inter', sans-serif;
+      --transition: all 0.3s ease;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 90px;
+    }
+
+    body {
+      font-family: var(--font);
+      background-color: var(--bg-dark);
+      color: var(--text-primary);
+      line-height: 1.5;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    section {
+      padding: 80px 0;
+    }
+
+    .fade-in, .slide-up {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s cubic-bezier(0.2, 0.9, 0.4, 1), transform 0.8s cubic-bezier(0.2, 0.9, 0.4, 1);
+    }
+
+    .fade-in.visible, .slide-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 14px 32px;
+      border-radius: 60px;
+      font-weight: 600;
+      font-size: 1rem;
+      text-decoration: none;
+      transition: var(--transition);
+      cursor: pointer;
+      border: none;
+      background: transparent;
+      color: var(--text-primary);
+      letter-spacing: 0.3px;
+      line-height: 1.2;
+    }
+
+    .btn-primary {
+      background: var(--accent-gradient);
+      color: white;
+      box-shadow: 0 8px 20px rgba(47, 124, 246, 0.35);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 16px 28px rgba(47, 124, 246, 0.5);
+      filter: brightness(1.1);
+    }
+
+    .btn-outline {
+      border: 1.5px solid rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(8px);
+    }
+
+    .btn-outline:hover {
+      border-color: var(--accent);
+      background: rgba(47, 124, 246, 0.1);
+      transform: translateY(-3px);
+    }
+
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      padding: 18px 0;
+      background: rgba(11, 14, 20, 0.8);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      z-index: 1000;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      font-size: 1.8rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      background: var(--accent-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-decoration: none;
+    }
+
+    .nav {
+      display: flex;
+      gap: 40px;
+      align-items: center;
+    }
+
+    .nav a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.95rem;
+      transition: var(--transition);
+      position: relative;
+    }
+
+    .nav a:hover {
+      color: white;
+    }
+
+    .nav a::after {
+      content: '';
+      position: absolute;
+      bottom: -6px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--accent-gradient);
+      transition: width 0.3s ease;
+      border-radius: 2px;
+    }
+
+    .nav a:hover::after {
+      width: 100%;
+    }
+
+    .burger {
+      display: none;
+      font-size: 1.8rem;
+      color: white;
+      cursor: pointer;
+      background: transparent;
+      border: none;
+    }
+
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding-top: 100px;
+      padding-bottom: 80px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -30%;
+      left: 50%;
+      width: 800px;
+      height: 800px;
+      background: radial-gradient(circle, rgba(47, 124, 246, 0.15) 0%, transparent 70%);
+      transform: translateX(-50%);
+      z-index: -1;
+      border-radius: 50%;
+      filter: blur(80px);
+    }
+
+    .hero-content {
+      max-width: 720px;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      background: rgba(47, 124, 246, 0.15);
+      color: #9bb9ff;
+      padding: 8px 20px;
+      border-radius: 40px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 28px;
+      letter-spacing: 0.5px;
+      border: 1px solid rgba(47, 124, 246, 0.3);
+    }
+
+    .hero h1 {
+      font-size: clamp(2.6rem, 7vw, 4.8rem);
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -1.5px;
+      margin-bottom: 24px;
+    }
+
+    .gradient-text {
+      background: var(--accent-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .typewriter-wrapper {
+      display: block;
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      font-weight: 600;
+      margin-bottom: 20px;
+      color: #b0c8ff;
+    }
+
+    .typewriter {
+      border-right: 3px solid var(--accent);
+      padding-right: 6px;
+      animation: blink 0.9s step-end infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { border-color: var(--accent); }
+      50% { border-color: transparent; }
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      color: var(--text-secondary);
+      margin-bottom: 40px;
+      max-width: 580px;
+    }
+
+    .hero-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 60px;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 48px;
+      border-top: 1px solid var(--border-light);
+      padding-top: 32px;
+    }
+
+    .stat-item h3 {
+      font-size: 2rem;
+      font-weight: 800;
+      background: var(--accent-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .stat-item p {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      margin-bottom: 0;
+    }
+
+    .section-title {
+      font-size: clamp(2rem, 4vw, 2.8rem);
+      font-weight: 700;
+      letter-spacing: -1px;
+      margin-bottom: 16px;
+    }
+
+    .section-subtitle {
+      color: var(--text-secondary);
+      font-size: 1.15rem;
+      max-width: 600px;
+      margin-bottom: 56px;
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 24px;
+    }
+
+    .service-card {
+      background: var(--bg-card);
+      padding: 32px 24px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-light);
+      transition: var(--transition);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .service-card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(47, 124, 246, 0.3);
+      box-shadow: var(--shadow-lg);
+      background: #1a212c;
+    }
+
+    .service-icon {
+      font-size: 2.4rem;
+      margin-bottom: 20px;
+      color: var(--accent);
+    }
+
+    .service-card h3 {
+      font-size: 1.4rem;
+      margin-bottom: 12px;
+      font-weight: 700;
+    }
+
+    .service-card p {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+
+    .price {
+      font-weight: 700;
+      font-size: 1.3rem;
+      color: white;
+      background: rgba(47, 124, 246, 0.15);
+      display: inline-block;
+      padding: 6px 16px;
+      border-radius: 40px;
+      letter-spacing: -0.3px;
+    }
+
+    .portfolio-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 28px;
+    }
+
+    .portfolio-card {
+      background: var(--bg-card);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      border: 1px solid var(--border-light);
+      transition: var(--transition);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .portfolio-card:hover {
+      transform: scale(1.02);
+      border-color: rgba(47, 124, 246, 0.4);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .portfolio-img {
+      width: 100%;
+      height: 200px;
+      background: linear-gradient(135deg, #1e2632, #10141b);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #8a9bb5;
+      font-size: 2.8rem;
+      border-bottom: 1px solid var(--border-light);
+      transition: var(--transition);
+    }
+
+    .portfolio-card:hover .portfolio-img {
+      background: linear-gradient(135deg, #2a3445, #161c26);
+      color: #a0c0ff;
+    }
+
+    .portfolio-info {
+      padding: 22px 20px 24px;
+    }
+
+    .portfolio-info h3 {
+      font-size: 1.3rem;
+      margin-bottom: 8px;
+      font-weight: 700;
+    }
+
+    .portfolio-info p {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 32px;
+    }
+
+    .feature-item {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      background: var(--bg-card);
+      padding: 32px 24px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-light);
+      transition: var(--transition);
+    }
+
+    .feature-item:hover {
+      border-color: rgba(47, 124, 246, 0.3);
+      transform: translateY(-6px);
+    }
+
+    .feature-icon {
+      font-size: 2rem;
+      color: var(--accent);
+    }
+
+    .feature-item h3 {
+      font-size: 1.25rem;
+      font-weight: 700;
+    }
+
+    .feature-item p {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+    }
+
+    .reviews-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 24px;
+    }
+
+    .review-card {
+      background: var(--bg-card);
+      padding: 28px 24px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-light);
+      transition: var(--transition);
+    }
+
+    .review-card:hover {
+      border-color: rgba(47, 124, 246, 0.3);
+    }
+
+    .review-stars {
+      color: #ffb800;
+      font-size: 1rem;
+      margin-bottom: 16px;
+      letter-spacing: 2px;
+    }
+
+    .review-text {
+      font-size: 0.98rem;
+      color: #d0def0;
+      margin-bottom: 24px;
+      line-height: 1.6;
+      font-style: italic;
+    }
+
+    .review-author {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .author-avatar {
+      width: 44px;
+      height: 44px;
+      background: var(--accent-gradient);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      color: white;
+      font-size: 1.1rem;
+    }
+
+    .author-info h4 {
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+    .author-info span {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+    }
+
+    .contact-section {
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      padding: 56px 48px;
+      border: 1px solid var(--border-light);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 48px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .contact-info {
+      flex: 1 1 300px;
+    }
+
+    .contact-info h2 {
+      font-size: 2rem;
+      margin-bottom: 16px;
+    }
+
+    .contact-info p {
+      color: var(--text-secondary);
+      margin-bottom: 32px;
+    }
+
+    .contact-links {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .contact-link {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      color: white;
+      text-decoration: none;
+      font-size: 1.05rem;
+      transition: var(--transition);
+      padding: 8px 0;
+    }
+
+    .contact-link i {
+      font-size: 1.4rem;
+      width: 28px;
+      color: var(--accent);
+    }
+
+    .contact-link:hover {
+      color: var(--accent);
+      transform: translateX(6px);
+    }
+
+    .contact-form {
+      flex: 1 1 320px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: 16px 18px;
+      background: var(--bg-light);
+      border: 1px solid var(--border-light);
+      border-radius: 16px;
+      color: white;
+      font-family: var(--font);
+      font-size: 1rem;
+      transition: var(--transition);
+      outline: none;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+      border-color: var(--accent);
+      background: #1a212e;
+      box-shadow: 0 0 0 3px rgba(47, 124, 246, 0.2);
+    }
+
+    .form-group textarea {
+      resize: vertical;
+      min-height: 110px;
+    }
+
+    .form-group ::placeholder {
+      color: #7a8aa0;
+    }
+
+    .form-submit {
+      width: 100%;
+      margin-top: 8px;
+    }
+
+    .footer-bottom {
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border-light);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 18px;
+    }
+
+    .social-links a {
+      color: var(--text-secondary);
+      font-size: 1.2rem;
+      transition: var(--transition);
+    }
+
+    .social-links a:hover {
+      color: var(--accent);
+      transform: translateY(-3px);
+    }
+
+    .scroll-top {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 52px;
+      height: 52px;
+      background: var(--accent-gradient);
+      border: none;
+      border-radius: 50%;
+      color: white;
+      font-size: 1.3rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      opacity: 0;
+      visibility: hidden;
+      transition: var(--transition);
+      box-shadow: 0 8px 20px rgba(47, 124, 246, 0.4);
+      z-index: 999;
+    }
+
+    .scroll-top.visible {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .scroll-top:hover {
+      transform: translateY(-5px) scale(1.05);
+      filter: brightness(1.15);
+    }
+
+    @media (max-width: 900px) {
+      .nav {
+        gap: 28px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .header {
+        padding: 14px 0;
+      }
+
+      .nav {
+        position: fixed;
+        top: 72px;
+        left: 0;
+        width: 100%;
+        background: rgba(11, 14, 20, 0.98);
+        backdrop-filter: blur(20px);
+        flex-direction: column;
+        padding: 32px 24px;
+        gap: 24px;
+        transform: translateY(-150%);
+        transition: transform 0.4s ease;
+        border-bottom: 1px solid var(--border-light);
+        z-index: 999;
+      }
+
+      .nav.active {
+        transform: translateY(0);
+      }
+
+      .nav a {
+        font-size: 1.2rem;
+      }
+
+      .burger {
+        display: block;
+      }
+
+      .hero-stats {
+        gap: 28px;
+        flex-wrap: wrap;
+      }
+
+      .contact-section {
+        padding: 32px 24px;
+      }
+
+      section {
+        padding: 60px 0;
+      }
+
+      .hero {
+        padding-top: 110px;
+      }
+
+      .hero-buttons .btn {
+        flex: 1 1 auto;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 0 18px;
+      }
+
+      .hero-stats {
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      .portfolio-grid,
+      .services-grid,
+      .features-grid,
+      .reviews-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .btn {
+        padding: 14px 24px;
+        font-size: 0.95rem;
+        width: 100%;
+      }
+
+      .hero-buttons {
+        flex-direction: column;
+      }
+
+      .scroll-top {
+        width: 46px;
+        height: 46px;
+        bottom: 20px;
+        right: 20px;
+        font-size: 1.1rem;
+      }
+
+      .footer-bottom {
+        flex-direction: column;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <div class="container header-inner">
+      <a href="#" class="logo">Alex.dev</a>
+      <button class="burger" id="burgerBtn" aria-label="Меню">
+        <i class="fas fa-bars"></i>
+      </button>
+      <nav class="nav" id="mainNav">
+        <a href="#hero">Главная</a>
+        <a href="#services">Услуги</a>
+        <a href="#portfolio">Портфолио</a>
+        <a href="#contacts">Контакты</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero" id="hero">
+    <div class="container">
+      <div class="hero-content">
+        <span class="hero-badge fade-in"><i class="fas fa-code" style="margin-right: 8px;"></i> Начинающий веб-разработчик — делаю простые сайты</span>
+        <h1 class="fade-in">
+          <span class="gradient-text">Делаю простые сайты</span><br>
+          недорого и без заморочек
+        </h1>
+        <div class="typewriter-wrapper fade-in">
+          <span class="typewriter" id="typewriter">Делаю простые сайты</span>
+        </div>
+        <p class="fade-in">Простые лендинги, сайты-визитки и небольшие проекты. Не гений, но сделаю аккуратно, честно и по доступной цене. Идеально для тех, кому нужен простой сайт без переплат.</p>
+        <div class="hero-buttons fade-in">
+          <a href="https://t.me/username" target="_blank" class="btn btn-primary"><i class="fab fa-telegram-plane"></i> Написать мне</a>
+          <a href="#portfolio" class="btn btn-outline"><i class="fas fa-eye"></i> Посмотреть работы</a>
+        </div>
+        <div class="hero-stats fade-in">
+          <div class="stat-item">
+            <h3>1+</h3>
+            <p>год практики</p>
+          </div>
+          <div class="stat-item">
+            <h3>10+</h3>
+            <p>простых проектов</p>
+          </div>
+          <div class="stat-item">
+            <h3>0₽</h3>
+            <p>переплат за «навороченность»</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="services">
+    <div class="container">
+      <h2 class="section-title fade-in">Услуги</h2>
+      <p class="section-subtitle fade-in">Берусь за простые задачи. Делаю то, что умею хорошо — и не обещаю лишнего.</p>
+      <div class="services-grid">
+        <div class="service-card slide-up">
+          <div class="service-icon"><i class="fas fa-file-alt"></i></div>
+          <h3>Сайт-визитка</h3>
+          <p>Небольшой сайт о вас или вашей услуге. Одна страница, понятный дизайн, без сложных функций.</p>
+          <span class="price">от 3 000 ₽</span>
+        </div>
+        <div class="service-card slide-up">
+          <div class="service-icon"><i class="fas fa-rocket"></i></div>
+          <h3>Простой лендинг</h3>
+          <p>Одностраничник для услуги или товара. Аккуратная вёрстка, адаптив, базовая анимация.</p>
+          <span class="price">от 5 000 ₽</span>
+        </div>
+        <div class="service-card slide-up">
+          <div class="service-icon"><i class="fas fa-code-branch"></i></div>
+          <h3>Вёрстка по макету</h3>
+          <p>Сверстаю макет из Figma в HTML/CSS. Простые проекты — быстро и без лишнего кода.</p>
+          <span class="price">от 2 000 ₽</span>
+        </div>
+        <div class="service-card slide-up">
+          <div class="service-icon"><i class="fas fa-tools"></i></div>
+          <h3>Правки и доработки</h3>
+          <p>Исправлю мелочи на существующем сайте, поправлю текст, цвета, отступы или адаптив.</p>
+          <span class="price">от 500 ₽</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="portfolio">
+    <div class="container">
+      <h2 class="section-title fade-in">Портфолио</h2>
+      <p class="section-subtitle fade-in">Небольшие проекты, которые я уже сделал. Без громких слов.</p>
+      <div class="portfolio-grid">
+        <div class="portfolio-card slide-up">
+          <div class="portfolio-img"><i class="fas fa-user-tie"></i></div>
+          <div class="portfolio-info">
+            <h3>Сайт-визитка для мастера</h3>
+            <p>Одностраничник для частного мастера: услуги, фото, кнопка связи.</p>
+          </div>
+        </div>
+        <div class="portfolio-card slide-up">
+          <div class="portfolio-img"><i class="fas fa-coffee"></i></div>
+          <div class="portfolio-info">
+            <h3>Лендинг для кофейни</h3>
+            <p>Простая страница с меню и адресом. Быстро, недорого, со вкусом.</p>
+          </div>
+        </div>
+        <div class="portfolio-card slide-up">
+          <div class="portfolio-img"><i class="fas fa-camera"></i></div>
+          <div class="portfolio-info">
+            <h3>Мини-сайт фотографа</h3>
+            <p>Галерея работ и контакты. Без сложных эффектов, но аккуратно.</p>
+          </div>
+        </div>
+        <div class="portfolio-card slide-up">
+          <div class="portfolio-img"><i class="fas fa-pen-nib"></i></div>
+          <div class="portfolio-info">
+            <h3>Вёрстка по макету</h3>
+            <p>Сверстал готовый макет из Figma в HTML и CSS для клиента.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <h2 class="section-title fade-in">Почему я</h2>
+      <p class="section-subtitle fade-in">Честный подход без завышенных обещаний.</p>
+      <div class="features-grid">
+        <div class="feature-item slide-up">
+          <div class="feature-icon"><i class="fas fa-hand-holding-usd"></i></div>
+          <h3>Недорого</h3>
+          <p>Беру адекватные деньги за простые проекты. Без накруток за «премиум».</p>
+        </div>
+        <div class="feature-item slide-up">
+          <div class="feature-icon"><i class="fas fa-comments"></i></div>
+          <h3>На связи</h3>
+          <p>Отвечаю в Telegram, не пропадаю. Обсуждаем задачу простым языком.</p>
+        </div>
+        <div class="feature-item slide-up">
+          <div class="feature-icon"><i class="fas fa-clock"></i></div>
+          <h3>В срок</h3>
+          <p>Простые задачи делаю быстро. Если что-то не успеваю — предупреждаю заранее.</p>
+        </div>
+        <div class="feature-item slide-up">
+          <div class="feature-icon"><i class="fas fa-mobile-alt"></i></div>
+          <h3>Адаптив</h3>
+          <p>Сайт будет нормально смотреться и на телефоне, и на компьютере.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <h2 class="section-title fade-in">Отзывы</h2>
+      <p class="section-subtitle fade-in">Что говорят люди, для которых я делал сайты.</p>
+      <div class="reviews-grid">
+        <div class="review-card slide-up">
+          <div class="review-stars">★★★★☆</div>
+          <p class="review-text">«Нужен был простой сайт для мастера — получил быстро и недорого. Всё работает, я доволен. Спасибо!»</p>
+          <div class="review-author">
+            <div class="author-avatar">ИП</div>
+            <div class="author-info">
+              <h4>Иван П.</h4>
+              <span>Частный мастер</span>
+            </div>
+          </div>
+        </div>
+        <div class="review-card slide-up">
+          <div class="review-stars">★★★★★</div>
+          <p class="review-text">«Алексей сверстал мне страницу по макету. Недорого и аккуратно. Для небольшого проекта — самое то.»</p>
+          <div class="review-author">
+            <div class="author-avatar">МС</div>
+            <div class="author-info">
+              <h4>Мария С.</h4>
+              <span>Фотограф</span>
+            </div>
+          </div>
+        </div>
+        <div class="review-card slide-up">
+          <div class="review-stars">★★★★☆</div>
+          <p class="review-text">«Заказывал лендинг для кофейни. Всё скромно, но со вкусом. Цена приятная, общение лёгкое.»</p>
+          <div class="review-author">
+            <div class="author-avatar">АК</div>
+            <div class="author-info">
+              <h4>Артём К.</h4>
+              <span>Владелец кофейни</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contacts">
+    <div class="container">
+      <div class="contact-section fade-in">
+        <div class="contact-info">
+          <h2>Напишите мне</h2>
+          <p>Расскажите, какой простой сайт вам нужен — обсудим задачу и цену без лишних слов.</p>
+          <div class="contact-links">
+            <a href="https://t.me/username" target="_blank" class="contact-link"><i class="fab fa-telegram-plane"></i> @username</a>
+            <a href="https://wa.me/79000000000" target="_blank" class="contact-link"><i class="fab fa-whatsapp"></i> +7 (900) 000-00-00</a>
+            <a href="mailto:mail@mail.ru" class="contact-link"><i class="fas fa-envelope"></i> mail@mail.ru</a>
+          </div>
+        </div>
+        <div class="contact-form">
+          <form id="feedbackForm">
+            <div class="form-group">
+              <input type="text" id="name" placeholder="Ваше имя" required>
+            </div>
+            <div class="form-group">
+              <input type="text" id="contact" placeholder="Телефон или Email" required>
+            </div>
+            <div class="form-group">
+              <textarea id="message" placeholder="Какой сайт нужен? Опишите в двух словах..." required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary form-submit"><i class="fas fa-paper-plane"></i> Отправить</button>
+          </form>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2025 Алексей. Делаю простые сайты.</span>
+        <div class="social-links">
+          <a href="https://t.me/username" target="_blank" aria-label="Telegram"><i class="fab fa-telegram-plane"></i></a>
+          <a href="https://wa.me/79000000000" target="_blank" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+          <a href="mailto:mail@mail.ru" aria-label="Email"><i class="fas fa-envelope"></i></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <button class="scroll-top" id="scrollTopBtn" aria-label="Наверх"><i class="fas fa-arrow-up"></i></button>
+
+  <script>
+    (function() {
+      const burger = document.getElementById('burgerBtn');
+      const nav = document.getElementById('mainNav');
+      if (burger) {
+        burger.addEventListener('click', () => {
+          nav.classList.toggle('active');
+          const icon = burger.querySelector('i');
+          if (nav.classList.contains('active')) {
+            icon.classList.remove('fa-bars');
+            icon.classList.add('fa-times');
+          } else {
+            icon.classList.remove('fa-times');
+            icon.classList.add('fa-bars');
+          }
+        });
+
+        nav.querySelectorAll('a').forEach(link => {
+          link.addEventListener('click', () => {
+            nav.classList.remove('active');
+            const icon = burger.querySelector('i');
+            icon.classList.remove('fa-times');
+            icon.classList.add('fa-bars');
+          });
+        });
+      }
+
+      const typewriterElement = document.getElementById('typewriter');
+      const phrases = ['Делаю простые сайты', 'Недорого и честно', 'Сайты-визитки', 'Лендинги без переплат'];
+      let phraseIndex = 0;
+      let charIndex = 0;
+      let isDeleting = false;
+      let typingSpeed = 100;
+
+      function type() {
+        const currentPhrase = phrases[phraseIndex];
+        if (isDeleting) {
+          typewriterElement.textContent = currentPhrase.substring(0, charIndex - 1);
+          charIndex--;
+          typingSpeed = 50;
+        } else {
+          typewriterElement.textContent = currentPhrase.substring(0, charIndex + 1);
+          charIndex++;
+          typingSpeed = 120;
+        }
+
+        if (!isDeleting && charIndex === currentPhrase.length) {
+          isDeleting = true;
+          typingSpeed = 1800;
+        } else if (isDeleting && charIndex === 0) {
+          isDeleting = false;
+          phraseIndex = (phraseIndex + 1) % phrases.length;
+          typingSpeed = 400;
+        }
+
+        setTimeout(type, typingSpeed);
+      }
+
+      if (typewriterElement) {
+        setTimeout(type, 500);
+      }
+
+      const scrollTopBtn = document.getElementById('scrollTopBtn');
+
+      window.addEventListener('scroll', () => {
+        if (window.pageYOffset > 400) {
+          scrollTopBtn.classList.add('visible');
+        } else {
+          scrollTopBtn.classList.remove('visible');
+        }
+      });
+
+      scrollTopBtn.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+
+      const animatedElements = document.querySelectorAll('.fade-in, .slide-up');
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, {
+        threshold: 0.15,
+        rootMargin: '0px 0px -40px 0px'
+      });
+
+      animatedElements.forEach(el => observer.observe(el));
+
+      const form = document.getElementById('feedbackForm');
+      if (form) {
+        form.addEventListener('submit', (e) => {
+          e.preventDefault();
+
+          const name = document.getElementById('name').value.trim();
+          const contact = document.getElementById('contact').value.trim();
+          const message = document.getElementById('message').value.trim();
+
+          if (!name || !contact || !message) {
+            alert('Пожалуйста, заполните все поля формы.');
+            return;
+          }
+
+          const text = `📩 Новое сообщение с сайта!\n\n👤 Имя: ${name}\n📞 Контакт: ${contact}\n💬 Сообщение: ${message}`;
+          const encodedText = encodeURIComponent(text);
+          const telegramUrl = `https://t.me/username?text=${encodedText}`;
+
+          window.open(telegramUrl, '_blank');
+        });
+      }
+
+    })();
+  </script>
+</body>
+</html>
